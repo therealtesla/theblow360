@@ -136,7 +136,7 @@ const [formattedTotalWithDelivery] = formatCurrency({
     </View>
     <TouchableOpacity
         style={tw`bg-blue-500 rounded-lg p-4 mt-5`}
-        onPress={() => navigation.navigate("PreparingOrder")}
+        onPress={() => navigation.navigate("CheckOut")}
     >
         <Text style={tw`text-center text-white font-bold text-lg`}>Place Order</Text>
     </TouchableOpacity>

@@ -24,6 +24,7 @@ import RestaurantScreen from './screen/RestaurantScreen';
 import BasketScreen from './screen/BasketScreen';
 import PreparingOrderScreen from './screen/PreparingOrderScreen';
 import FoodDeliveryScreen from './screen/FoodDeliveryScreen';
+import CheckOutScreen from './screen/CheckOutScreen';
 
 
 
@@ -68,7 +69,7 @@ export default function App() {
         <Stack.Screen name = "Basket" component={BasketScreen} options = {{presentation:"modal",headerShown:false}}/>
         <Stack.Screen name = "PreparingOrder" component={PreparingOrderScreen} options= {{ presentation:'fullScreenModal', headerShown:false}}/>
         <Stack.Screen name = "FoodDelivery" component={FoodDeliveryScreen} options= {{ presentation:'fullScreenModal', headerShown:false}}/>
-       
+        <Stack.Screen name = "CheckOut" component={CheckOutScreen} options= {{headerShown:false}}/>
 
         
    
