@@ -27,7 +27,7 @@ const MainScreen = () => {
             <View style = {{ paddingHorizontal:5 ,paddingTop:50}}>
 
                  <View style = {tw `flex-row mt-10 ml-5 `}>
-                                  <TouchableOpacity  onPress={() => setIsModalVisible(true)}    style = {{backgroundColor:"white",padding:20,borderRadius:10,
+                                  <TouchableOpacity  onPress={() => navigation.navigate("Delivery")}  style = {{backgroundColor:"white",padding:20,borderRadius:10,
                     shadowColor:"black",shadowOffset:{width:0,height:2}, width:100, 
                     shadowOpacity:0.25,shadowRadius:4,elevation:5, marginTop:5}}>
 
@@ -35,7 +35,7 @@ const MainScreen = () => {
                          < Image source={bikeImg} style= {{width:50, height:50, resizeMode:'contain'}} />
                          <Text style= {{fontWeight:500}}>Delivery </Text>
 
-                         <Modal visible = {isModalVisible}
+                         {/* <Modal visible = {isModalVisible}
                          onRequestClose={()=> setIsModalVisible(false)}
                          animationType="slide"
                          transparent = {true}
@@ -74,7 +74,7 @@ const MainScreen = () => {
                             </View>
                             <MyButton label='close' onPress={()=>setIsModalVisible(false)}/>
 
-                         </Modal>
+                         </Modal> */}
                          
                          
                          
