@@ -1,20 +1,23 @@
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectRestaurant } from '../features/restaurantSlice';
 import tw from 'tailwind-react-native-classnames';
-import { selectOrigin, setOrigin } from '../slices/navSlice'; // Assuming user location is stored in navSlice
+import { selectOrigin, setOrigin } from '../slices/navSlice';
 import { XCircleIcon } from 'react-native-heroicons/outline';
-import bike from '../assets/bike.png'; // Adjust the path to where your image is located
-import * as Location from 'expo-location'; // Import location library
-import MapView, { Marker } from 'react-native-maps'; // Import MapView from react-native-maps
+import bike from '../assets/bike.png';
+import * as Location from 'expo-location';
+import MapView, { Marker } from 'react-native-maps';
+import axios from 'axios';
 
 const FoodDeliveryScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const restaurant = useSelector(selectRestaurant); // Retrieve restaurant data from Redux store
-  const userLocation = useSelector(selectOrigin); // Retrieve user location from Redux store
+  const restaurant = useSelector(selectRestaurant);
+  const userLocation = useSelector(selectOrigin);
+  const [estimatedTime, setEstimatedTime] = useState('45-55 Minutes'); // Default value
+  const [currentDateTime, setCurrentDateTime] = useState('');
 
   // Fetch user location on component mount
   useEffect(() => {
@@ -37,6 +40,57 @@ const FoodDeliveryScreen = () => {
     fetchUserLocation();
   }, []);
 
+  // Calculate distance and time using Google Maps Distance Matrix API
+  useEffect(() => {
+    const fetchDistanceAndTime = async () => {
+      if (!restaurant || !userLocation?.location) return;
+
+      const API_KEY = 'AIzaSyARsz7FWMaL0miP9EahKAp07HK5xaIkyB4'; // Replace with your API key
+      const origin = `${userLocation.location.lat},${userLocation.location.long}`;
+      const destination = `${restaurant.lat},${restaurant.long}`;
+
+      try {
+        const response = await axios.get(
+          `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${API_KEY}`
+        );
+
+        const data = response.data;
+        if (data.rows[0].elements[0].status === 'OK') {
+          const duration = data.rows[0].elements[0].duration.text; // e.g., "15 mins"
+          setEstimatedTime(duration);
+        } else {
+          console.log('Error fetching distance matrix:', data.rows[0].elements[0].status);
+        }
+      } catch (error) {
+        console.error('Error fetching distance matrix:', error);
+      }
+    };
+
+    fetchDistanceAndTime();
+  }, [restaurant, userLocation]);
+
+  // Function to calculate total time (estimatedTime + 50 mins)
+  const calculateTotalTime = () => {
+    const timeInMinutes = parseInt(estimatedTime.split(' ')[0]); // Extract the number from "15 mins"
+    if (!isNaN(timeInMinutes)) {
+      return `${timeInMinutes + 50} mins`; // Add 50 and format it back
+    }
+    return estimatedTime; // Fallback if parsing fails
+  };
+
+  // Update current date and time
+  useEffect(() => {
+    const updateDateTime = () => {
+      const now = new Date();
+      const formattedDateTime = now.toLocaleString(); // Format as "MM/DD/YYYY, HH:MM:SS AM/PM"
+      setCurrentDateTime(formattedDateTime);
+    };
+
+    updateDateTime();
+    const interval = setInterval(updateDateTime, 1000); // Update every second
+    return () => clearInterval(interval); // Clear interval on component unmount
+  }, []);
+
   return (
     <View style={tw`bg-white flex-1`}>
       <SafeAreaView style={tw`z-50`}>
@@ -51,7 +105,9 @@ const FoodDeliveryScreen = () => {
           <View style={tw`flex-row justify-between`}>
             <View>
               <Text style={tw`text-lg text-gray-400`}>Estimated Arrival</Text>
-              <Text style={tw`text-4xl font-bold mr-4`}>45-55 Minutes</Text>
+              <Text style={tw`text-2xl font-bold mr-4`}>{calculateTotalTime()}</Text>
+              {/* Dynamic Date and Time */}
+              <Text style={tw`text-sm text-gray-500 mt-2`}>{currentDateTime}</Text>
             </View>
             <Image source={bike} style={{ width: 100, height: 100 }} />
           </View>
@@ -63,14 +119,9 @@ const FoodDeliveryScreen = () => {
       </SafeAreaView>
 
       <MapView
-       
-      
-       
-       showsUserLocation = {true} 
-       followsUserLocation = {true}
-       zoomEnabled={true}
-
-
+        showsUserLocation={true}
+        followsUserLocation={true}
+        zoomEnabled={true}
         initialRegion={{
           latitude: restaurant?.lat || 0,
           longitude: restaurant?.long || 0,
