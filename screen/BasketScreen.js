@@ -79,7 +79,7 @@ const BasketScreen = () => {
         setDeliveryTime(`${estimatedTime} mins`);
 
         // Set delivery fee based on distance (e.g., NGN 100 per km)
-        const fee = Math.ceil(distance / 1000) * 600; // NGN 100 per km
+        const fee = Math.ceil(distance / 1000) * 450; // NGN 100 per km
         dispatch(setDeliveryFee(fee));
       } catch (error) {
         console.error('Error calculating delivery details:', error);

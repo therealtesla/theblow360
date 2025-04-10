@@ -6,8 +6,10 @@ import tw from 'tailwind-react-native-classnames';
 import { Ionicons } from '@expo/vector-icons'; // Import location icon
 import * as Location from 'expo-location'; // For geocoding (optional if using an API)
 import { Picker } from '@react-native-picker/picker'; // Import Picker for delivery options
+import { useNavigation } from "@react-navigation/native";
 
 const CheckOutScreen = () => {
+     const navigation = useNavigation();
   const restaurant = useSelector(selectRestaurant); // Get restaurant details from Redux
   const [restaurantInstruction, setRestaurantInstruction] = useState('');
   const [deliveryInstruction, setDeliveryInstruction] = useState('');
@@ -152,7 +154,8 @@ const CheckOutScreen = () => {
   <View style={tw`p-5`}>
     <TouchableOpacity
       style={tw`bg-blue-500 p-4 rounded-lg shadow-lg`}
-      onPress={handleProceedToPay}
+      onPress={() => navigation.navigate("FoodPayment")}
+    
     >
       <Text style={tw`text-white text-center text-lg font-bold`}>
         Proceed to Pay
