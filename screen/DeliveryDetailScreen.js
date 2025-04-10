@@ -4,7 +4,7 @@ import MyButton from "../components/MyButton";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import tw from 'tailwind-react-native-classnames';
-import { selectTravelTimeInformation } from '../slices/navSlice';
+import { selectTravelTimeInformation, selectDestination } from '../slices/navSlice'; // Import destination selector
 import { useSelector } from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select'; // Import the dropdown library
 import PhoneInput from 'react-native-phone-input'; // Import the phone input library
@@ -18,11 +18,14 @@ const DeliveryDetailScreen = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [pack, setPack] = useState("");
     const [instruction, setInstruction] = useState("");
-    const [destination, setDestination] = useState(""); // State for destination address
     const navigation = useNavigation();
 
     const travelTimeInformation = useSelector(selectTravelTimeInformation);
+    const destination = useSelector(selectDestination); // Get destination from Redux
     const [selected, setSelected] = useState(null);
+
+    // Debugging: Log destination to ensure it's being retrieved
+    console.log("Destination from Redux:", destination);
 
     // Calculate total amount dynamically
     const totalAmount = travelTimeInformation
@@ -130,18 +133,18 @@ const DeliveryDetailScreen = () => {
 
                     {/* Destination Address */}
                     <TextInput
-                        style={{
-                            height: 50,
-                            borderColor: "#ddd",
-                            borderWidth: 1,
-                            marginBottom: 15,
-                            padding: 15,
-                            borderRadius: 10
-                        }}
-                        placeholder="Destination Address"
-                        value={destination}
-                        onChangeText={setDestination}
-                    />
+    style={{
+        height: 50,
+        borderColor: "#ddd",
+        borderWidth: 1,
+        marginBottom: 15,
+        padding: 15,
+        borderRadius: 10
+    }}
+    placeholder="Destination Address"
+    value={destination?.description || "No destination set"} // Dynamically show the destination description
+    editable={false} // Make it non-editable
+/>
 
                     <TextInput
                         style={{
@@ -159,8 +162,13 @@ const DeliveryDetailScreen = () => {
                         value={instruction}
                         onChangeText={setInstruction}
                     />
-
-                    <Text style={tw`font-bold`}>Charges</Text>
+                    
+                    {instruction.length > 0 && (
+                        <Text style={tw`font-bold underline`}>
+                            Box can fit 40cm x 40cm x 40cm up to 7kg. We do not transport anything illegal.
+                        </Text>
+                    )}
+                    <Text style={tw`font-bold mt-3`}>Charges</Text>
 
                     <View style={{ flex: 1, justifyContent: "center", paddingHorizontal: 10, backgroundColor: "#f5f5f5" }}>
                         <View>
