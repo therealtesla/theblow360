@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "theblow360",
+    "slug": "theblow360",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logo.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.theblow360",
+      "config": {
+        "googleMapsApiKey":"AIzaSyARsz7FWMaL0miP9EahKAp07HK5xaIkyB4"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.anonymous.theblow360",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyARsz7FWMaL0miP9EahKAp07HK5xaIkyB4"
+        },
+        "permissions": [ "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "FOREGROUND_SERVICE"]
+      }
+     
+    },
+    "web": {
+      "favicon": "./assets/logo.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission":"Allow THEBLOW360 to use your location."
+        }
+      ]
+    ],
+    
+    "extra": {
+      "eas": {
+        "projectId": "1f89858f-141e-4bb0-a5a7-1984f17be725"
+      }
+    }
+  }
+}
