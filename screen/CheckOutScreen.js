@@ -103,7 +103,7 @@ const CheckOutScreen = () => {
       style={tw`border border-gray-300 rounded-lg bg-gray-50 w-50 h-40`}
     >
       <Picker.Item label="Home Delivery" value="Home Delivery" />
-      <Picker.Item label="Take Away" value="Take Away" />
+      {/* <Picker.Item label="Take Away" value="Take Away" /> */}
     </Picker>
   </View>
 
