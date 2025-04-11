@@ -89,3 +89,12 @@ const RideOptionsCard = () => {
 export default RideOptionsCard;
 
 const styles = StyleSheet.create({});
+
+
+
+
+
+
+
+
+

@@ -2,7 +2,8 @@ import {configureStore} from "@reduxjs/toolkit";
 import navReducer from "./slices/navSlice";
 import basketReducer from "./features/basketSlice"
 import restaurantReducer from "./features/restaurantSlice"
-import deliveryFeeReducer from "./features/deliveryFeeSlice"; // Import the delivery fee reducer
+import deliveryFeeReducer from "./features/deliveryFeeSlice"; 
+import trackingReducer from "./slices/trackingSlice"; // Import the tracking reducer
 
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
       basket:basketReducer,
       restaurant:restaurantReducer,
       deliveryFee: deliveryFeeReducer, // Add the delivery fee reducer
+      tracking: trackingReducer,
 
    
 

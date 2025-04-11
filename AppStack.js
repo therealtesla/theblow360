@@ -26,6 +26,8 @@ import PreparingOrderScreen from './screen/PreparingOrderScreen';
 import FoodDeliveryScreen from './screen/FoodDeliveryScreen';
 import CheckOutScreen from './screen/CheckOutScreen';
 import FoodPaymentScreen from './screen/FoodPaymentScreen';
+import PurchasePaymentScreen from './screen/PurchasePaymentScreen';
+
 
 
 
@@ -72,6 +74,8 @@ export default function App() {
         <Stack.Screen name = "FoodDelivery" component={FoodDeliveryScreen} options= {{ presentation:'fullScreenModal', headerShown:false}}/>
         <Stack.Screen name = "CheckOut" component={CheckOutScreen} options= {{headerShown:false}}/>
         <Stack.Screen name = "FoodPayment" component={FoodPaymentScreen} options= {{headerShown:false}}/>
+        <Stack.Screen name = "PurchasePayment" component={PurchasePaymentScreen} options= {{headerShown:false}}/>
+        
         
    
         

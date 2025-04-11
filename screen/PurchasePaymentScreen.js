@@ -4,21 +4,21 @@ import tw from 'tailwind-react-native-classnames';
 import { useSelector } from 'react-redux';
 import { selectTravelTimeInformation } from '../slices/navSlice';
 
-
 // Constants
 const SURGE_CHARGE_RATE = 1.5;
-const multiplier = 230;
+const multiplier = 350;
 
-const PaymentScreen = () => {
+const PurchasePaymentScreen = () => {
   const [paymentMethod, setPaymentMethod] = useState('cash'); // 'cash' or 'card'
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');
   const [cardHolderName, setCardHolderName] = useState('');
 
-  
+  // Fetch travel time information from Redux
   const travelTimeInformation = useSelector(selectTravelTimeInformation);
 
+  // Calculate total amount dynamically
   const totalAmount = travelTimeInformation
     ? (travelTimeInformation.duration.value * multiplier * SURGE_CHARGE_RATE) / 100
     : 0;
@@ -33,13 +33,12 @@ const PaymentScreen = () => {
     } else {
       Alert.alert('Success', 'Cash payment selected!');
     }
-
-
   };
 
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
       <View style={tw`p-5`}>
+        {/* Total Amount Section */}
         <View style={styles.totalAmountContainer}>
           <Text style={styles.totalAmountText}>Total Amount</Text>
           <Text style={styles.totalAmountValue}>
@@ -52,6 +51,7 @@ const PaymentScreen = () => {
 
         <Text style={tw`text-lg font-bold mb-5`}>Select Payment Method</Text>
 
+        {/* Payment Method Selection */}
         <View style={tw`flex-row justify-around mb-5`}>
           <TouchableOpacity
             style={[
@@ -77,6 +77,7 @@ const PaymentScreen = () => {
           </TouchableOpacity>
         </View>
 
+        {/* Card Payment Fields */}
         {paymentMethod === 'card' && (
           <>
             <TextInput
@@ -110,17 +111,16 @@ const PaymentScreen = () => {
           </>
         )}
 
-        <TouchableOpacity style={styles.button} 
-        
-        onPress={handlePayment}>
-          <Text style={tw`text-white font-bold`}>Done</Text>
+        {/* Payment Button */}
+        <TouchableOpacity style={styles.button} onPress={handlePayment}>
+          <Text style={tw`text-white font-bold`}>Confirm Payment</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 };
 
-export default PaymentScreen;
+export default PurchasePaymentScreen;
 
 const styles = StyleSheet.create({
   totalAmountContainer: {
